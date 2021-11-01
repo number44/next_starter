@@ -1,14 +1,12 @@
-import type { NextComponentType, NextPageContext, NextLayoutComponentType } from 'next';
-import type { AppProps } from 'next/app';
-
-declare module 'next' {
-  type NextLayoutComponentType<P = {}> = NextComponentType<NextPageContext, any, P> & {
-    getLayout?: (page: ReactNode) => ReactNode;
-  };
-}
+import type { CompletePrivateRouteInfo } from 'next/dist/shared/lib/router/router';
+import type { Router } from 'next/dist/client/router';
 
 declare module 'next/app' {
-  type AppLayoutProps<P = {}> = AppProps & {
-    Component: NextLayoutComponentType;
-  };
+  export declare type AppProps = Pick<CompletePrivateRouteInfo, 'Component' | 'err'> & {
+    router: Router;
+  } & Record<string, any> & {
+      Component: {
+        getLayout?: (page: JSX.Element) => JSX.Element;
+      };
+    };
 }
